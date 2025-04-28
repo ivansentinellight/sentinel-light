@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+mercadopago
+httpx
+jinja2
+python-multipart
