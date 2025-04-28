@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentinel Light - Scanner Gratis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-6">Plan Gratis - Escaneo Básico</h1>
+
+    <p class="text-center mb-8 text-gray-700">
+        Estás usando el <strong>Plan Gratis</strong>. Podés escanear 1 sitio web y/o 1 correo electrónico con un reporte básico.
+    </p>
+
+    <form id="scanner-form" method="POST" action="/scanner" class="space-y-4">
+        <div class="flex flex-col items-center">
+            <label for="email" class="font-semibold">Correo electrónico:</label>
+            <input type="email" name="email" id="email" class="p-2 border rounded-md w-1/2" placeholder="Correo electrónico">
+        </div>
+        <div class="flex flex-col items-center">
+            <label for="url" class="font-semibold">Sitio web:</label>
+            <input type="url" name="url" id="url" class="p-2 border rounded-md w-1/2" placeholder="https://www.ejemplo.com" required>
+        </div>
+        <button type="submit" class="bg-green-500 text-white p-2 rounded-md w-full hover:bg-green-600">
+            Escanear Gratis
+        </button>
+    </form>
+
+    <div id="scan-results" class="mt-6 p-4 border rounded-md bg-white hidden">
+        <h2 class="text-2xl font-semibold text-center">Resultados del escaneo</h2>
+
+        <div id="email-result" class="mt-4 hidden">
+            <h3 class="font-semibold">Resultado del correo electrónico:</h3>
+            <pre class="bg-gray-100 p-2 rounded-md" id="email-output"></pre>
+        </div>
+
+        <div id="website-result" class="mt-4 hidden">
+            <h3 class="font-semibold">Resultado del sitio web:</h3>
+            <pre class="bg-gray-100 p-2 rounded-md" id="website-output"></pre>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('scanner-form');
+    const scanResults = document.getElementById('scan-results');
+    const emailResult = document.getElementById('email-result');
+    const websiteResult = document.getElementById('website-result');
+    const emailOutput = document.getElementById('email-output');
+    const websiteOutput = document.getElementById('website-output');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        // Mostrar loading
+        scanResults.classList.remove('hidden');
+        emailResult.classList.remove('hidden');
+        websiteResult.classList.remove('hidden');
+        emailOutput.textContent = "Escaneando correo electrónico... 🔍";
+        websiteOutput.textContent = "Escaneando sitio web... 🔍";
+
+        try {
+            const response = await fetch('/scanner', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+
+            // Recibir la página escaneada otra vez
+            const html = await response.text();
+
+            // Leer resultados nuevos
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const newEmail = doc.querySelector('pre.bg-gray-100')?.textContent || "No se encontró resultado del correo.";
+            const newWebsite = doc.querySelectorAll('pre.bg-gray-100')[1]?.textContent || "No se encontró resultado del sitio.";
+
+            emailOutput.textContent = newEmail;
+            websiteOutput.textContent = newWebsite;
+
+        } catch (error) {
+            console.error('Error:', error);
+            emailOutput.textContent = "❌ Error escaneando correo electrónico.";
+            websiteOutput.textContent = "❌ Error escaneando sitio web.";
+        }
+    });
+});
+</script>
+
+</body>
+</html>

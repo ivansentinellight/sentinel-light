@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sentinel Light | Escaneo de Seguridad Web Gratis y Profesional</title>
+  <meta name="description" content="Protege tu sitio web con Sentinel Light. Escaneo gratuito de vulnerabilidades, reportes profesionales y opciones avanzadas para empresas. ¡Comienza gratis ahora!">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <style>
+    .elegir-plan {
+      background-color: orange;
+      color: white;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 6px;
+      margin-top: 10px;
+      width: 100%;
+      display: inline-block;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+<header class="bg-blue-900 text-white p-6 text-center">
+  <h1 class="text-4xl font-bold">Sentinel Light</h1>
+  <nav class="mt-4">
+    <ul class="flex justify-center space-x-6">
+      <li><a href="#features" class="hover:text-yellow-400">Características</a></li>
+      <li><a href="#pricing" class="hover:text-yellow-400">Precios</a></li>
+      <li><a href="#contact" class="hover:text-yellow-400">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero-section bg-gray-200 text-center p-20">
+  <h2 class="text-5xl font-bold text-blue-900 mb-6">Escanea tu web. Encuentra vulnerabilidades antes que los hackers.</h2>
+  <p class="text-xl text-gray-700 mb-8">Protege tu negocio online con Sentinel Light. Plan gratuito disponible.</p>
+  <a href="#pricing" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded">
+    Comenzar
+  </a>
+</section>
+
+<section id="pricing" class="p-10">
+  <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">Comparativa de Planes</h2>
+
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full text-center border-collapse border border-gray-300">
+      <thead class="bg-blue-900 text-white">
+        <tr>
+          <th class="p-4">Características</th>
+          <th class="p-4">Gratis</th>
+          <th class="p-4">Pro</th>
+          <th class="p-4">Empresa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-white">
+          <td class="p-4">Escaneo básico</td><td>✔️</td><td>✔️</td><td>✔️</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="p-4">Reportes avanzados</td><td>❌</td><td>✔️</td><td>✔️</td>
+        </tr>
+        <tr class="bg-white">
+          <td class="p-4">Integración CI/CD</td><td>❌</td><td>✔️</td><td>✔️</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="p-4">Escaneo personalizado</td><td>❌</td><td>❌</td><td>✔️</td>
+        </tr>
+        <tr class="bg-white">
+          <td class="p-4">Soporte 24/7</td><td>❌</td><td>❌</td><td>✔️</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex flex-wrap justify-center mt-10 gap-6">
+    <div class="plan-card bg-white p-6 rounded shadow w-80 text-center">
+      <h3 class="text-2xl font-bold text-blue-900">Gratis</h3>
+      <p class="my-4">Escaneo básico de vulnerabilidades.</p>
+      <p class="font-bold text-green-600">Precio: $0</p>
+      <button class="elegir-plan" data-plan="Gratis" data-precio="0">Elegir</button>
+    </div>
+
+    <div class="plan-card bg-white p-6 rounded shadow w-80 text-center">
+      <h3 class="text-2xl font-bold text-blue-900">Pro</h3>
+      <p class="my-4">Análisis avanzado + soporte prioritario.</p>
+      <p class="font-bold text-green-600">Precio: $14</p>
+      <button class="elegir-plan" data-plan="Pro" data-precio="14">Elegir</button>
+    </div>
+
+    <div class="plan-card bg-white p-6 rounded shadow w-80 text-center">
+      <h3 class="text-2xl font-bold text-blue-900">Empresa</h3>
+      <p class="my-4">Auditoría completa + reportes personalizados + SLA 24/7.</p>
+      <p class="font-bold text-green-600">Precio: $49</p>
+      <button class="elegir-plan" data-plan="Empresa" data-precio="49">Elegir</button>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="p-10 bg-white">
+  <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">Contáctanos</h2>
+
+  {% if confirmation %}
+  <div class="{% if 'Gracias' in confirmation %}bg-green-100 text-green-700{% else %}bg-red-100 text-red-700{% endif %} border p-4 mb-6 rounded text-center">
+    {{ confirmation }}
+  </div>
+  {% endif %}
+
+  <form id="contactForm" method="POST" action="/contact" class="max-w-xl mx-auto space-y-6 bg-gray-50 p-8 rounded shadow-md">
+    <div>
+      <label for="name" class="block mb-2 font-semibold">Nombre:</label>
+      <input type="text" id="name" name="name" class="p-2 w-full border rounded" required>
+    </div>
+
+    <div>
+      <label for="email" class="block mb-2 font-semibold">Email:</label>
+      <input type="email" id="email" name="email" class="p-2 w-full border rounded" required>
+    </div>
+
+    <div>
+      <label for="message" class="block mb-2 font-semibold">Mensaje:</label>
+      <textarea id="message" name="message" rows="4" class="p-2 w-full border rounded" required></textarea>
+    </div>
+
+    <input type="hidden" id="g_recaptcha_response" name="g_recaptcha_response">
+
+    <div class="g-recaptcha" data-sitekey="6LfPmycrAAAAADTKM1A2NH7DezjESEKlTYFi89cd" data-callback="onSubmit"></div>
+
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded w-full mt-4">
+      Enviar Mensaje
+    </button>
+  </form>
+</section>
+
+</main>
+
+<footer class="bg-blue-900 text-white p-6 text-center mt-10">
+  <p>© 2025 Sentinel Light. Todos los derechos reservados.</p>
+  <p class="mt-4">
+    <a href="/privacidad" class="underline hover:text-yellow-400">Privacidad</a> |
+    <a href="/terminos" class="underline hover:text-yellow-400">Términos</a>
+  </p>
+</footer>
+
+<a href="https://wa.me/5491123456789" target="_blank" class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-full shadow-lg">
+  WhatsApp
+</a>
+
+<!-- Script para elegir planes -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.elegir-plan').forEach(button => {
+    button.addEventListener('click', async (event) => {
+      event.preventDefault();
+      const plan = button.dataset.plan;
+      const precio = parseFloat(button.dataset.precio);
+
+      if (precio === 0) {
+        window.location.href = "/dashboard-gratis";
+      } else {
+        try {
+          const response = await fetch("/crear-preferencia", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ titulo: plan, precio: precio })
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.init_point) {
+            window.location.href = data.init_point;
+          } else {
+            console.error("Error recibido:", data);
+            alert("Error en la compra: " + (data.error || "Error desconocido"));
+          }
+        } catch (error) {
+          console.error("Error de red:", error);
+          alert("Error de red o conexión al servidor.");
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Script para reCAPTCHA -->
+<script>
+function onSubmit(token) {
+  document.getElementById('g_recaptcha_response').value = token;
+  document.getElementById('contactForm').submit();
+}
+</script>
+
+</body>
+</html>
